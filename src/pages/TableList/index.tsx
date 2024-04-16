@@ -1,3 +1,5 @@
+import { selectStateName } from '@/models/example/index.model';
+import { useAppSelector } from '@/models/store';
 import { addRule, removeRule, rule, updateRule } from '@/services/ant-design-pro/api';
 import { PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns, ProDescriptionsItemProps } from '@ant-design/pro-components';
@@ -84,6 +86,8 @@ const handleRemove = async (selectedRows: API.RuleListItem[]) => {
 };
 
 const TableList: React.FC = () => {
+  const ads = useAppSelector(selectStateName);
+  console.log('selectStateName: ', ads);
   /**
    * @en-US Pop-up window of new window
    * @zh-CN 新建窗口的弹窗
