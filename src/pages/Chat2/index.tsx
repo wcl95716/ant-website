@@ -41,9 +41,7 @@ const ChatRoom: React.FC = () => {
                 url: '',
                 uu_id: `${Date.now()}-${userId}`, // Construct a unique identifier
             };
-            // websocketRef.current?.send(JSON.stringify(messageData));
             dispatch(sendMessage({ roomId: roomId, message: messageData }));
-            // dispatch(receiveMessage({ roomId, message: event.data }));
             setNewMessage('');
         }
     };
