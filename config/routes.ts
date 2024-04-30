@@ -70,6 +70,12 @@ export default [
         component: './ChatAnt',
     },
     {
+        name: 'list.table-list',
+        icon: 'chat',
+        path: '/chat2',
+        component: './Chat2',
+    },
+    {
         path: '/',
         redirect: '/welcome',
     },
