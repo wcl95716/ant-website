@@ -158,8 +158,8 @@ export default defineConfig({
             localIdentName: '[local]_[hash:base64:5]',
         },
     },
-    // https: {
-    //     cert: '/root/.acme.sh/panda-website.top_ecc/panda-website.top.cer',
-    //     key: '/root/.acme.sh/panda-website.top_ecc/panda-website.top.key',
-    // },
+    https: {
+        cert: '/root/.acme.sh/panda-website.top_ecc/panda-website.top.cer',
+        key: '/root/.acme.sh/panda-website.top_ecc/panda-website.top.key',
+    },
 });
