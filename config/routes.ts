@@ -64,7 +64,7 @@ export default [
     //     component: './ChatAnt',
     // },
     {
-        name: 'list.table-list',
+        name: 'list.qr',
         icon: 'pda',
         path: '/pda',
         component: './PDA',
