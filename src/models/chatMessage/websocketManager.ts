@@ -14,7 +14,7 @@ class WebSocketManager {
     // 为指定房间建立 WebSocket 连接的方法
     connect(roomId: string) {
         // 构建带有用户 ID 和房间 ID 参数的 WebSocket URL
-        const url = `ws://192.168.50.147:25432/CharMessageAPI/ws?user_id=${this.clientId}&room_id=${roomId}`;
+        const url = `ws://0.0.0.0:25432/CharMessageAPI/ws?user_id=${this.clientId}&room_id=${roomId}`;
         const websocket = new WebSocket(url);
 
         // 在字典中存储对应房间 ID 的 WebSocket 对象

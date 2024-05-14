@@ -4,10 +4,12 @@ import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import chatMessageSliceReducer from './chatMessage/index.model';
 import exampleSliceReducer from './example/index.model';
+import workItemSliceReducer from './workOrder/index.model';
 export const store = configureStore({
     reducer: {
         exampleData: exampleSliceReducer,
         chatMessage: chatMessageSliceReducer,
+        workItem: workItemSliceReducer,
     },
 });
 

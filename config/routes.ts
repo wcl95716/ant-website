@@ -48,12 +48,6 @@ export default [
     {
         name: 'list.table-list',
         icon: 'table',
-        path: '/list',
-        component: './TableList',
-    },
-    {
-        name: 'list.table-list',
-        icon: 'table',
         path: '/list2',
         component: './TableList2',
     },
@@ -71,9 +65,9 @@ export default [
     },
     {
         name: 'list.table-list',
-        icon: 'chat',
-        path: '/chat2',
-        component: './Chat2',
+        icon: 'pda',
+        path: '/pda',
+        component: './PDA',
     },
     {
         path: '/',
