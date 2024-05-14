@@ -158,4 +158,8 @@ export default defineConfig({
             localIdentName: '[local]_[hash:base64:5]',
         },
     },
+    https: {
+        key: './key.pem',
+        cert: './cert.pem',
+    },
 });
