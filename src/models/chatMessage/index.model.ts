@@ -50,7 +50,7 @@ export const getHistoryMessagesRequest = createAsyncThunk(
         { rejectWithValue },
     ) => {
         try {
-            const url = new URL('http://127.0.0.1:25432/ChatMessageAPI/room');
+            const url = new URL('https://panda-code.top/ChatMessageAPI/room');
             url.searchParams.append('room_id', roomId);
             url.searchParams.append('current', current.toString());
             url.searchParams.append('pageSize', pageSize.toString());

@@ -5,12 +5,12 @@ import { IWorkItem, IWorkItemStateType } from './index.type';
 
 // get state from http://127.0.0.1:5000/getVideosDetail
 export const getTestRequest = createAsyncThunk('test/getTestRequest', async () => {
-    const response = await fetch('http://127.0.0.1:5000/getVideosDetail');
+    const response = await fetch('https://panda-code.top/getVideosDetail');
     return response.json();
 });
 
 //   curl -X 'POST' \
-//   'http://0.0.0.0:25432/WorkOrderAPI' \
+//   'https://panda-code.top/WorkOrderAPI' \
 //   -H 'accept: application/json' \
 //   -H 'Content-Type: application/json' \
 //   -d '{
@@ -27,7 +27,7 @@ export const getTestRequest = createAsyncThunk('test/getTestRequest', async () =
 export const createWorkOrder = createAsyncThunk(
     'workOrder/createWorkOrder',
     async (workItem: IWorkItem) => {
-        const response = await fetch('http://0.0.0.0:25432/WorkOrderAPI', {
+        const response = await fetch('https://panda-code.top/WorkOrderAPI', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -39,7 +39,7 @@ export const createWorkOrder = createAsyncThunk(
 );
 
 export const deleteWorkOrder = createAsyncThunk('workOrder/deleteWorkOrder', async (id: string) => {
-    const response = await request.delete(`http://0.0.0.0:25432/WorkOrderAPI`, {
+    const response = await request.delete(`https://panda-code.top/WorkOrderAPI`, {
         params: { id: id },
     });
     return response.json();
@@ -48,7 +48,7 @@ export const deleteWorkOrder = createAsyncThunk('workOrder/deleteWorkOrder', asy
 export const updateWorkOrder = createAsyncThunk(
     'workOrder/updateWorkOrder',
     async (workItem: IWorkItem) => {
-        const response = await request.put(`http://0.0.0.0:25432/WorkOrderAPI`, {
+        const response = await request.put(`https://panda-code.top/WorkOrderAPI`, {
             data: workItem,
         });
         return response.json();

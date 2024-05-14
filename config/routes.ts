@@ -22,12 +22,12 @@ export default [
             },
         ],
     },
-    {
-        path: '/welcome',
-        name: 'welcome',
-        icon: 'smile',
-        component: './Welcome',
-    },
+    // {
+    //     path: '/welcome',
+    //     name: 'welcome',
+    //     icon: 'smile',
+    //     component: './Welcome',
+    // },
     {
         path: '/admin',
         name: 'admin',
@@ -51,18 +51,18 @@ export default [
         path: '/list2',
         component: './TableList2',
     },
-    {
-        name: 'list.table-list',
-        icon: 'chat',
-        path: '/chat',
-        component: './Chat',
-    },
-    {
-        name: 'list.table-list',
-        icon: 'chat',
-        path: '/chatant',
-        component: './ChatAnt',
-    },
+    // {
+    //     name: 'list.table-list',
+    //     icon: 'chat',
+    //     path: '/chat',
+    //     component: './Chat',
+    // },
+    // {
+    //     name: 'list.table-list',
+    //     icon: 'chat',
+    //     path: '/chatant',
+    //     component: './ChatAnt',
+    // },
     {
         name: 'list.table-list',
         icon: 'pda',
@@ -71,7 +71,7 @@ export default [
     },
     {
         path: '/',
-        redirect: '/welcome',
+        redirect: '/pda',
     },
     {
         path: '*',
