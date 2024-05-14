@@ -57,7 +57,7 @@ export const columns: ProColumns<IWorkItem>[] = [
         valueType: 'dateTime',
         render: (_, record) => {
             // 使用 moment 库来格式化日期时间
-            return moment(record.createAt).format('YYYY-MM-DD HH:mm:ss');
+            return moment(record.created_at).format('YYYY-MM-DD HH:mm:ss');
         },
         sorter: true,
         hideInSearch: true,

@@ -24,6 +24,6 @@ export interface IWorkItem {
     content?: string;
     creator_id?: string;
     assigned_to_id?: string;
-    updateAt?: string;
-    createAt?: string;
+    update_at?: string;
+    created_at?: string;
 }
