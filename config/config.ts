@@ -159,7 +159,7 @@ export default defineConfig({
         },
     },
     https: {
-        key: './key.pem',
-        cert: './cert.pem',
+        key: '/root/.acme.sh/panda-website.top_ecc/panda-website.top.cer',
+        cert: '/root/.acme.sh/panda-website.top_ecc/panda-website.top.key',
     },
 });

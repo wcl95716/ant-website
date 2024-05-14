@@ -1,31 +1,97 @@
 #!/bin/bash
 
-# 检查是否提供了 COMMON_NAME
-if [ -z "$1" ]; then
-    echo "Usage: $0 COMMON_NAME"
-    exit 1
-fi
+function install_dns_utils() {
+    if ! command -v dig &> /dev/null; then
+        echo "dig 未安装，正在安装 dnsutils..."
+        sudo apt-get update && sudo apt-get install -y dnsutils
+    fi
+}
 
-# 设置证书的信息
-COMMON_NAME="$1"
-ORGANIZATION="Example Organization"
-COUNTRY="US"
-STATE="California"
-LOCALITY="Mountain View"
-EMAIL="admin@example.com"
-VALID_DAYS=3650  # 证书有效期
+function check_certificate_exists() {
+    domain="$1"
+    domain_ecc="${domain}_ecc"
 
-# 生成私钥
-openssl genpkey -algorithm RSA -out key.pem
+    echo "$HOME/.acme.sh/$domain_ecc/fullchain.cer"
 
-# 生成证书签发请求 (CSR)
-openssl req -new -key key.pem -out csr.pem -subj "/C=$COUNTRY/ST=$STATE/L=$LOCALITY/O=$ORGANIZATION/CN=$COMMON_NAME/emailAddress=$EMAIL"
+    if [[ -f "$HOME/.acme.sh/$domain_ecc/fullchain.cer" ]] && [[ -f "$HOME/.acme.sh/$domain_ecc/$domain.key" ]]; then
+        echo "已经拥有证书。"
+        return 0
+    else
+        echo "没有找到证书文件。"
+        return 1
+    fi
+}
 
-# 生成自签名证书
-openssl x509 -req -days $VALID_DAYS -in csr.pem -signkey key.pem -out cert.pem
+function install_or_renew_letsencrypt_tls() {
+    install_dns_utils
 
-# 删除 CSR 文件（可选）
-rm csr.pem
+    # 定义 acme.sh 的安装路径
+    ACME_SH="$HOME/.acme.sh/acme.sh"
 
-echo "证书生成成功！"
+    # 安装 acme.sh
+    if [ ! -f "$ACME_SH" ]; then
+        echo "正在安装 acme.sh..."
+        curl https://get.acme.sh | sh
+        # 重新加载 shell 配置
+        source "$HOME/.bashrc"
+    fi
 
+    # 输入域名
+    read -p "请输入你要为其获取证书的域名: " domain
+
+    if [[ -z "$domain" ]]; then
+        echo "域名不能为空。"
+        return 1
+    fi
+
+    domain_ecc="${domain}_ecc"
+
+    echo "domain_ecc $domain_ecc"
+
+    # 检查是否已经拥有证书
+    if check_certificate_exists "$domain"; then
+        # 如果已经拥有证书，询问是否强制重新生成
+        read -p "已经拥有证书，是否强制重新生成？(y/n): " force_renew
+        if [[ "$force_renew" == "y" || "$force_renew" == "Y" ]]; then
+            "$ACME_SH" --renew -d "$domain" --force
+        else
+            echo "取消证书生成。"
+            return 0
+        fi
+    else
+        # 如果没有证书，正常生成
+        # 解析域名并获取其 IP 地址
+        domain_ip=$(dig +short "$domain")
+        echo "域名 $domain 解析到的 IP 地址: $domain_ip"
+
+        # 获取服务器的公网 IP 地址
+        server_ip=$(curl -s http://icanhazip.com)
+        echo "服务器的公网 IP 地址: $server_ip"
+
+        # 检查域名解析的 IP 地址是否与服务器的 IP 地址匹配
+        if [[ "$domain_ip" != "$server_ip" ]]; then
+            echo "错误: 域名解析的 IP 地址与服务器的 IP 地址不匹配。"
+            return 1
+        fi
+
+        # 结束占用 80 端口的进程
+        echo "正在检查并结束占用 80 端口的进程..."
+        sudo fuser -k 80/tcp
+
+        # 使用 acme.sh 的完整路径生成证书
+        echo "正在从 Let's Encrypt 获取证书..."
+        "$ACME_SH" --issue --standalone -d "$domain" --keylength ec-256 --server letsencrypt --force --debug
+    fi
+
+    # 再次检查证书是否生成成功
+    if check_certificate_exists "$domain"; then
+        echo "证书成功生成。"
+        echo "证书路径: $HOME/.acme.sh/$domain_ecc/fullchain.cer"
+        echo "私钥路径: $HOME/.acme.sh/$domain_ecc/$domain.key"
+    else
+        echo "证书生成失败。"
+        return 1
+    fi
+}
+
+install_or_renew_letsencrypt_tls
