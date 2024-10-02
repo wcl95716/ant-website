@@ -32,7 +32,7 @@ const ChatRoom: React.FC = () => {
         );
         socket.onmessage = (event) => {
             const data = JSON.parse(event.data); // 确保消息数据被解析成对象
-            dispatch(receiveMessage({ roomId, message: data }));
+            dispatch(receiveMessage({ ...data, room_id: roomId }));
         };
         socket.onopen = () => console.log('WebSocket opened.');
         socket.onclose = () => console.log('WebSocket closed.');

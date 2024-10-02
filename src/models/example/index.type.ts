@@ -1,3 +1,3 @@
 export interface IExampleStateType {
-  name: string;
+    name: string;
 }
